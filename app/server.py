@@ -18,13 +18,7 @@ def create_app():
   async def health():
       return {'message': 'success'}
 
-  @app_.get('/v2/{login}')
-  async def usersv2(login):
-      try:
-        res = db.select('SELECT * FROM users WHERE login = ? LIMIT 1', (login,))
-        return RedirectResponse(res[0]['link'])
-      except Exception as e:
-        raise HTTPException(status_code=404, detail="user or picture not found")
+
 
   @app_.get('/')
   async def root():
@@ -33,8 +27,8 @@ def create_app():
   @app_.get('/{login}')
   async def user(login):
       try:
-        res = ic.get(f'users/{login}').json()
-        return RedirectResponse(res['image']['link'])
+        res = db.select('SELECT * FROM users WHERE login = ? LIMIT 1', (login,))
+        return RedirectResponse(res[0]['link'])
       except Exception as e:
         raise HTTPException(status_code=404, detail="user or picture not found")
 
