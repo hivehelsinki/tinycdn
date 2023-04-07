@@ -3,6 +3,8 @@ import os
 import click
 import uvicorn
 
+from intra import ic
+
 @click.command()
 @click.option(
   "--env",
@@ -19,6 +21,9 @@ import uvicorn
 def main(env, debug):
     os.environ['ENV'] = env
     os.environ['DEBUG'] = str(debug)
+
+    user = ic.get('users/jgengo').json()
+
     uvicorn.run(
         app="server:app",
         host='0.0.0.0',

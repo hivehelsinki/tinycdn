@@ -1,6 +1,8 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
+
+from intra import ic
 
 def create_app():
   app_ = FastAPI(
@@ -27,9 +29,14 @@ def create_app():
   async def root():
       return {'app': app_.title, 'version': app_.version}
 
-  @app_.get('/{login}', response_class=RedirectResponse)
+  @app_.get('/{login}')
   async def user(login):
-      return 'https://i.pravatar.cc/300'
+      try:
+        res = ic.get(f'users/{login}').json()
+        return RedirectResponse(res['image']['link'])
+      except Exception as e:
+        raise HTTPException(status_code=404, detail="user or picture not found")
+
 
   return app_
 
