@@ -1,10 +1,6 @@
 import os
-import sys
 from fastapi import FastAPI
-
-def receive_signal(signalNumber, frame):
-    print('Received:', signalNumber)
-    sys.exit()
+from fastapi.responses import RedirectResponse
 
 def create_app():
   app_ = FastAPI(
@@ -25,16 +21,15 @@ def create_app():
 
   @app_.get('/api/health')
   async def health():
-      return {'message': 'Healthy'}
+      return {'message': 'success'}
 
-  @app_.get('/{login}')
-  async def root(login):
-      return {'message': login}
+  @app_.get('/')
+  async def root():
+      return {'app': app_.title, 'version': app_.version}
 
-  @app_.on_event("startup")
-  async def startup_event():
-    import signal
-    signal.signal(signal.SIGINT, receive_signal)
+  @app_.get('/{login}', response_class=RedirectResponse)
+  async def user(login):
+      return 'https://i.pravatar.cc/300'
 
   return app_
 
