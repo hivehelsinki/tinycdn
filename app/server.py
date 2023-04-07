@@ -13,17 +13,9 @@ def create_app():
     redoc_url=None if os.environ['ENV'] == 'prod' else '/redoc',
   )
 
-  # @app_.get('/api/reset')
-  # async def reset():
-  #     return {'message': 'Reset'}
-
-  # @app_.get('/api/force_reset')
-  # async def force_reset():
-  #     return {'message': 'Force Reset'}
-
-  # @app_.get('/api/health')
-  # async def health():
-  #     return {'message': 'success'}
+  @app_.get('/api/health')
+  async def health():
+      return {'message': 'success'}
 
   @app_.get('/')
   async def root():

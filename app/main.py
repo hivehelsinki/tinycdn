@@ -22,13 +22,12 @@ def main(env, debug):
     os.environ['ENV'] = env
     os.environ['DEBUG'] = str(debug)
 
-    user = ic.get('users/jgengo').json()
-
     uvicorn.run(
         app="server:app",
         host='0.0.0.0',
         port=8000,
         reload=True if os.environ['ENV'] != "prod" else False,
+        log_level="debug" if os.environ['DEBUG'] == 'True' else "warning",
         workers=1,
     )
 

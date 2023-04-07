@@ -6,7 +6,7 @@ services:
     env_file:
       - .env.dev
     restart: always
-    command: "python main.py --env prod"
+    command: "python main.py --env dev --debug"
     healthcheck:
       test:
         ["CMD-SHELL", "wget localhost:8000/api/health -q -O - > /dev/null 2>&1"]
@@ -14,7 +14,7 @@ services:
       timeout: 5s
       retries: 3
     networks:
-      - tinycdn
+      - tinycdn_dev
 
   nginx:
     image: nginx:1.23.4-alpine
@@ -28,7 +28,7 @@ services:
         condition: service_healthy
     restart: always
     networks:
-      - tinycdn
+      - tinycdn_dev
 
 networks:
-  tinycdn:
+  tinycdn_dev:
