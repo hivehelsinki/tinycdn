@@ -1,6 +1,5 @@
 import os
 import sqlite3
-import threading
 
 from sqlite3 import Error
 from utils.intra import IntraAPIClient

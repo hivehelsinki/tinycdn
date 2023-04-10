@@ -1,6 +1,4 @@
-import os
 import math
-import json
 import time
 import logging
 import requests

@@ -1,9 +1,7 @@
-import asyncio
 import os
 import threading
 
-
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 
 from utils.db import db, populate_users
