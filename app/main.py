@@ -3,24 +3,32 @@ import os
 import click
 import uvicorn
 
-from intra import ic
-from db import db
+from utils.db import db
+
+def check__envs():
+    errors = []
+
+    for e in ["FT_ID", "FT_SECRET", "CAMPUS_ID", "ENV"]:
+        if e not in os.environ:
+            errors.append(e)
+
+    if errors:
+        raise Exception(f"Missing environment variables: {', '.join(errors)}")
+
 
 @click.command()
 @click.option(
   "--env",
   type=click.Choice(["dev", "prod"], case_sensitive=False),
   default="dev",
+  required=True,
 )
 def main(env):
     os.environ['ENV'] = env
+    check__envs()
 
     db.create_db()
-
-    print("Fetching users from intranet")
-    users = ic.pages_threaded(f"campus/{os.environ['CAMPUS_ID']}/users")
-    values = [(user['login'], user['image']['link']) for user in users]
-    db.executemany('INSERT OR IGNORE INTO users (login, link) VALUES (?, ?)', values)
+    db.populate_users()
 
     uvicorn.run(
         app="server:app",

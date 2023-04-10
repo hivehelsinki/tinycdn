@@ -171,5 +171,3 @@ class IntraAPIClient(object):
 
   def progress_enable(self):
     self.progress_bar = True
-
-ic = IntraAPIClient(os.environ['FT_ID'], os.environ['FT_SECRET'])

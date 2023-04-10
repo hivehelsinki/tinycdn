@@ -2,8 +2,7 @@ import os
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 
-from intra import ic
-from db import db
+from utils.db import db
 
 def create_app():
   app_ = FastAPI(

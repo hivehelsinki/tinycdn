@@ -1,5 +1,8 @@
+import os
 import sqlite3
+
 from sqlite3 import Error
+from utils.intra import IntraAPIClient
 
 class Db:
   def __init__(self):
@@ -58,5 +61,13 @@ class Db:
         link TEXT
       );
     """)
+
+  def populate_users(self):
+    print("Fetching users from intranet")
+    ic = IntraAPIClient(os.environ['FT_ID'], os.environ['FT_SECRET'])
+    users = ic.pages_threaded(f"campus/{os.environ['CAMPUS_ID']}/users")
+    values = [(user['login'], user['image']['link']) for user in users]
+    self.executemany('INSERT OR IGNORE INTO users (login, link) VALUES (?, ?)', values)
+
 
 db = Db()
