@@ -1,8 +1,23 @@
 import os
 import sqlite3
+import threading
 
 from sqlite3 import Error
 from utils.intra import IntraAPIClient
+
+# outside of class Db because SQLite cursor can't be shared between threads
+def populate_users():
+  db = Db()
+  in_db = db.select('SELECT updated_at FROM users ORDER BY updated_at DESC LIMIT 1')
+  if in_db:
+      return
+
+  print("Fetching users from intranet")
+  ic = IntraAPIClient(os.environ['FT_ID'], os.environ['FT_SECRET'])
+  users = ic.pages_threaded(f"campus/{os.environ['CAMPUS_ID']}/users")
+  values = [(user['login'], user['image']['link'], user['updated_at']) for user in users]
+  db.executemany('INSERT OR IGNORE INTO users (login, link, updated_at) VALUES (?, ?, ?)', values)
+  print("Done fetching users from intranet")
 
 class Db:
   def __init__(self):
@@ -62,17 +77,5 @@ class Db:
         updated_at TEXT
       );
     """)
-
-  def populate_users(self):
-    in_db = self.select('SELECT updated_at FROM users ORDER BY updated_at DESC LIMIT 1')
-    if in_db:
-        return
-
-    print("Fetching users from intranet")
-    ic = IntraAPIClient(os.environ['FT_ID'], os.environ['FT_SECRET'])
-    users = ic.pages_threaded(f"campus/{os.environ['CAMPUS_ID']}/users")
-    values = [(user['login'], user['image']['link'], user['updated_at']) for user in users]
-    self.executemany('INSERT OR IGNORE INTO users (login, link, updated_at) VALUES (?, ?, ?)', values)
-    print("Done fetching users from intranet")
 
 db = Db()

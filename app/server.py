@@ -1,14 +1,19 @@
 import asyncio
 import os
+import threading
 
-from fastapi import FastAPI, HTTPException
+
+from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.responses import RedirectResponse
 
-from utils.db import db
+from utils.db import db, populate_users
+
+async def startup_event():
+  thread = threading.Thread(target=populate_users)
+  thread.start()
 
 def create_app():
   db.create_db()
-  db.populate_users()
   app_ = FastAPI(
     title='TinyCDN',
     description="TinyCDN is a simple CDN for students' profile pictures",
@@ -16,6 +21,8 @@ def create_app():
     docs_url=None if os.environ['ENV'] == 'prod' else '/docs',
     redoc_url=None if os.environ['ENV'] == 'prod' else '/redoc'
   )
+
+  app_.add_event_handler("startup", startup_event)
 
   @app_.get('/api/health')
   async def health():
