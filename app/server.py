@@ -24,7 +24,7 @@ def create_app():
 
   @app_.get('/api/health')
   async def health():
-    return {'message': 'success'}
+    return {'status': 'alive'}
 
   @app_.get('/api/update')
   async def update():
