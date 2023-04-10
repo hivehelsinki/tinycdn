@@ -6,13 +6,13 @@ services:
     env_file:
       - .env.dev
     restart: always
-    command: "python main.py --env dev --debug"
+    command: "python main.py --env dev"
     healthcheck:
       test:
         ["CMD-SHELL", "wget localhost:8000/api/health -q -O - > /dev/null 2>&1"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
+      interval: 5s
+      timeout: 5s
+      retries: 3
     networks:
       - tinycdn_dev
 
