@@ -7,7 +7,7 @@ from utils.intra import IntraAPIClient
 # outside of class Db because SQLite cursor can't be shared between threads
 def populate_users():
   db = Db()
-  in_db = db.select('SELECT updated_at FROM users ORDER BY updated_at DESC LIMIT 1')
+  in_db = db.select('SELECT * FROM users ORDER BY updated_at DESC LIMIT 1')
   if in_db:
       return
 
