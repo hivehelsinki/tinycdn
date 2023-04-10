@@ -12,23 +12,14 @@ from db import db
   type=click.Choice(["dev", "prod"], case_sensitive=False),
   default="dev",
 )
-
-@click.option(
-  "--debug",
-  type=click.BOOL,
-  is_flag=True,
-  default=False
-)
-def main(env, debug):
+def main(env):
     os.environ['ENV'] = env
-    os.environ['DEBUG'] = str(debug)
 
     db.create_db()
 
-    print('pulling...')
-    users = ic.pages_threaded('campus/13/users')
+    print("Fetching users from intranet")
+    users = ic.pages_threaded(f"campus/{os.environ['CAMPUS_ID']}/users")
     values = [(user['login'], user['image']['link']) for user in users]
-    print(values)
     db.executemany('INSERT OR IGNORE INTO users (login, link) VALUES (?, ?)', values)
 
     uvicorn.run(
@@ -36,7 +27,7 @@ def main(env, debug):
         host='0.0.0.0',
         port=8000,
         reload=True if os.environ['ENV'] != "prod" else False,
-        log_level="debug" if os.environ['DEBUG'] == 'True' else "warning",
+        log_level="warning" if os.environ['ENV'] == "prod" else "debug",
         workers=1,
     )
 

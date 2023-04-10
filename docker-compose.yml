@@ -4,15 +4,15 @@ services:
   app:
     build: app/
     env_file:
-      - .env.dev
+      - .env
     restart: always
     command: "python main.py --env prod"
     healthcheck:
       test:
         ["CMD-SHELL", "wget localhost:8000/api/health -q -O - > /dev/null 2>&1"]
-      interval: 5s
-      timeout: 5s
-      retries: 3
+      interval: 10s
+      timeout: 10s
+      retries: 5
     networks:
       - tinycdn
 

@@ -18,20 +18,17 @@ def create_app():
   async def health():
       return {'message': 'success'}
 
-
-
   @app_.get('/')
   async def root():
       return {'app': app_.title, 'version': app_.version}
 
   @app_.get('/{login}')
-  async def user(login):
+  async def login(login):
       try:
         res = db.select('SELECT * FROM users WHERE login = ? LIMIT 1', (login,))
         return RedirectResponse(res[0]['link'])
       except Exception as e:
         raise HTTPException(status_code=404, detail="user or picture not found")
-
 
   return app_
 
