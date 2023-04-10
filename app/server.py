@@ -34,7 +34,7 @@ def create_app():
 
   @app_.get('/')
   async def root():
-    return {'app': app_.title, 'version': app_.version}
+    return {'name': app_.title, 'version': app_.version}
 
   @app_.get('/{login}')
   async def login(login):
