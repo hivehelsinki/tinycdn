@@ -23,12 +23,10 @@ def check__envs():
   default="dev",
   required=True,
 )
+
 def main(env):
     os.environ['ENV'] = env
     check__envs()
-
-    db.create_db()
-    db.populate_users()
 
     uvicorn.run(
         app="server:app",
