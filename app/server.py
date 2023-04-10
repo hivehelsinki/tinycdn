@@ -40,9 +40,13 @@ def create_app():
   async def login(login):
     try:
       res = db.select('SELECT * FROM users WHERE login = ? LIMIT 1', (login,))
-      return RedirectResponse(res[0]['link'])
+      if res:
+        return RedirectResponse(res[0]['link'])
+      else:
+        # instead of raising here, might be better to fetch api and insert in db.
+        raise HTTPException(status_code=404, detail="user not found in database")
     except Exception as e:
-      raise HTTPException(status_code=404, detail="user or picture not found")
+      raise HTTPException(status_code=500)
 
   return app_
 
