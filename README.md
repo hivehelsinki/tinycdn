@@ -13,7 +13,7 @@
 You may wonder why such an application is necessary. Perhaps you want to create a static website or a simple app without the hassle of setting up a 42API connector or OAuth to retrieve your students' profile picture links. In that case, TinyCDN can help you access any of your students' pictures using the URL tinycdn.domain.nl/LE_LOGIN. This is no longer possible through 42 due to GDPR restrictions on external exposure of student profile pictures.
 
 
-# Install
+## Install
 
 1. Create a new 42API application [here](https://profile.intra.42.fr/oauth/applications)
 
@@ -48,3 +48,34 @@ copy .env.sample .env
 4. Edit `./nginx/nginx.conf` to suits your need.
 
 In this step you might just need to update the 2 `server_name` lines but also potentially the `allow` ones if you want to only restrict this service to specific internal IPs and `ssl_certificate` lines if you want to use other file names for your certs.
+
+## Run
+
+```bash
+docker-compose up --build
+```
+
+I would then recommend to take a look at the logs, making sure you don't see any errors.
+
+```bash
+docker-compose logs -f
+```
+
+## Test
+
+Locally testing it works well before setting up your DNS can be done by adding into your /etc/hosts the following line:
+
+```
+127.0.0.1 tinycdn.domain.nl
+```
+
+Then open a browser and try to access https://tinycdn.domain.nl/ it should returns the following:
+
+```bash
+{
+  "name": "TinyCDN",
+  "version": "0.0.1"
+}
+```
+
+If so, try to access a student profile picture via: https://tinycdn.domain.nl/LOGIN. For example, https://tinycdn.domain.nl/jgengo
