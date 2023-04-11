@@ -52,7 +52,7 @@ In this step you might just need to update the 2 `server_name` lines but also po
 ## Run
 
 ```bash
-docker-compose up --build
+docker-compose up -d --build
 ```
 
 I would then recommend to take a look at the logs, making sure you don't see any errors.
