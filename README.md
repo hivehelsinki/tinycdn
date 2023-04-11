@@ -22,13 +22,15 @@ You may wonder why such an application is necessary. Perhaps you want to create 
 copy .env.sample .env
 ```
 
-|  Key | Description |
+|  key | desc |
 | :---         | :---      |
 | CAMPUS_ID    | Your campus ID on the intranet |
 | FT_ID     | Your 42API UID starting with `u-s4t2af` |
 | FT_SECRET | Your 42API Secret starting with `s-s4t2af` |
 
-3. You will need to add your SSL certs into `./nginx/ssl` like so:
+<br />
+
+3. You will need to add your SSL certs into `./nginx/ssl/` like so:
 
 ```
 ├── nginx.conf
@@ -39,9 +41,13 @@ copy .env.sample .env
     └── touch
 ```
 
-4. Edit `./nginx/nginx.conf` to suits your need.
+<br />
 
-In this step you might just need to update the 2 `server_name` lines but also potentially the `allow` ones if you want to only restrict this service to specific internal IPs and `ssl_certificate` lines if you want to use other file names for your certs.
+4. Edit `./nginx/nginx.conf` to suit your needs.
+
+In this step, you may need:
+- to update the `allow` lines if you want to restrict this service to some other specific internal IPs
+- to update the `ssl_certificate` lines if you want to use different filen names for your certificates than `cert.key` and `cert.crt`.
 
 ## Run
 
@@ -73,3 +79,33 @@ Then open a browser and try to access https://tinycdn.domain.nl/ it should retur
 ```
 
 If so, try to access a student profile picture via: https://tinycdn.domain.nl/LOGIN. For example, https://tinycdn.domain.nl/jgengo
+
+
+## Dev
+
+If you want to run this application in dev mode:
+- debug logs
+- no ip restriction
+- auto reload on edition
+- http only 
+
+You can follow the following steps:
+
+1. create a .env.dev file and fill in the required fields.
+```
+cp .env.sample .env.dev
+```
+
+2. Run your container:
+```bash
+docker-compose -f dc-dev.yml up --build -d
+```
+
+3. Read the logs to make sure everything went ok
+```bash
+docker-compose -f dc-dev.yml logs -f
+```
+
+4. Access it via : http://localhost
+
+Feel free to change the port forwarding if you want to use something else than 80 in the dc-dev.yml
