@@ -12,6 +12,7 @@
 
 You may wonder why such an application is necessary. Perhaps you want to create a static website or a simple app without the hassle of setting up a 42API connector or OAuth to retrieve your students' profile picture links. In that case, TinyCDN can help you access any of your students' pictures using the URL tinycdn.domain.nl/LE_LOGIN. This is no longer possible through 42 due to GDPR restrictions on external exposure of student profile pictures.
 
+<br /><br />
 
 ## Install
 
@@ -61,7 +62,7 @@ I would then recommend to take a look at the logs, making sure you don't see any
 docker-compose logs -f
 ```
 
-## Test
+**Test**
 
 Locally testing it works well before setting up your DNS can be done by adding into your /etc/hosts the following line:
 
@@ -80,6 +81,7 @@ Then open a browser and try to access https://tinycdn.domain.nl/ it should retur
 
 If so, try to access a student profile picture via: https://tinycdn.domain.nl/LOGIN. For example, https://tinycdn.domain.nl/jgengo
 
+<br /><br />
 
 ## Dev
 
