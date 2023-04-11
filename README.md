@@ -1,10 +1,10 @@
 <h1 align="center"><code>TinyCDN</code></h1>
 
 <div align="center">
-    <sub>
-        Created by <a href="https://github.com/jgengo">Jordane Gengo (titus)</a>,  
-        From <a href="https://hive.fi">Hive Helsinki</a>
-    </sub>
+    <sub>Created by <a href="https://github.com/jgengo">Jordane Gengo (titus)</a></sub>
+</div>
+<div align="center">
+    <sub>From <a href="https://hive.fi">Hive Helsinki</a></sub>
 </div>
 
 # Description
@@ -17,8 +17,6 @@ You may wonder why such an application is necessary. Perhaps you want to create 
 
 1. Create a new 42API application [here](https://profile.intra.42.fr/oauth/applications)
 
-<br />
-
 2. Create the .env file and fill in the required information
 ```bash
 copy .env.sample .env
@@ -30,8 +28,6 @@ copy .env.sample .env
 | FT_ID     | Your 42API UID starting with `u-s4t2af` |
 | FT_SECRET | Your 42API Secret starting with `s-s4t2af` |
 
-<br />
-
 3. You will need to add your SSL certs into `./nginx/ssl` like so:
 
 ```
@@ -42,8 +38,6 @@ copy .env.sample .env
     ├── cert.key
     └── touch
 ```
-
-<br />
 
 4. Edit `./nginx/nginx.conf` to suits your need.
 
