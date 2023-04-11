@@ -64,13 +64,7 @@ docker-compose logs -f
 
 **Test**
 
-Locally testing it works well before setting up your DNS can be done by adding into your /etc/hosts the following line:
-
-```
-127.0.0.1 tinycdn.domain.nl
-```
-
-Then open a browser and try to access https://tinycdn.domain.nl/ it should returns the following:
+Open a browser and try to access https://tinycdn.domain.nl/ it should returns the following:
 
 ```bash
 {
