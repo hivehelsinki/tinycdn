@@ -77,4 +77,8 @@ class Db:
       );
     """)
 
+  def destroy(self):
+    self.execute('DROP TABLE users;')
+    
+
 db = Db()
