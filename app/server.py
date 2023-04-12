@@ -1,7 +1,7 @@
 import os
 import threading
 
-from fastapi import FastAPI, HTTPException, APIRouter
+from fastapi import FastAPI
 
 
 from routers import api, root

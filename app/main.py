@@ -2,7 +2,6 @@ import os
 import click
 import uvicorn
 from uvicorn.config import LOGGING_CONFIG
-from utils.db import db
 
 def check__envs(env):
   os.environ['ENV'] = env
