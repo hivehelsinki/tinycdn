@@ -69,7 +69,7 @@ Open a browser and try to access https://tinycdn.domain.nl/ it should returns th
 ```bash
 {
   "name": "TinyCDN",
-  "version": "0.0.2"
+  "version": "0.0.3"
 }
 ```
 
@@ -110,6 +110,6 @@ Feel free to change the port forwarding if you want to use something else than 8
 
 ## Todo
 
-- [ ] `/api/update` route - To update the latest /campus/:id/users.
+- [x] `/api/update` route - To update the latest /campus/:id/users.
 - [x] `/api/reset` route - To force reset the whole database and fetching all the users again.
 - [ ] propose a branch without nginx, for those already having their own reverse proxy handling certs.
