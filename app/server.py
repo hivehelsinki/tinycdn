@@ -16,7 +16,7 @@ def create_app():
   app_ = FastAPI(
     title='TinyCDN',
     description="TinyCDN is a simple CDN for students' profile pictures",
-    version="0.0.2",
+    version="0.0.3",
     docs_url=None if os.environ['ENV'] == 'prod' else '/docs',
     redoc_url=None if os.environ['ENV'] == 'prod' else '/redoc'
   )
