@@ -45,13 +45,16 @@ class Db:
     columns = [desc[0] for desc in cursor.description]
     return [dict(zip(columns, row)) for row in results]
 
-  def execute(self, sql):
+  def execute(self, sql, values=None):
     if self.conn is None:
       return
 
     try:
       c = self.conn.cursor()
-      c.execute(sql)
+      if values:
+        c.execute(sql, values)
+      else:
+        c.execute(sql)
       self.conn.commit()
     except Error as e:
       print(e)
@@ -79,6 +82,6 @@ class Db:
 
   def destroy(self):
     self.execute('DROP TABLE users;')
-    
+
 
 db = Db()

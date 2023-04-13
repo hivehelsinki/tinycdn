@@ -1,7 +1,10 @@
+import os
+
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import RedirectResponse, FileResponse
 
 from utils.db import db
+from utils.intra import IntraAPIClient
 
 router = APIRouter()
 
@@ -15,5 +18,10 @@ async def login(login):
     if res:
         return RedirectResponse(res[0]['link'])
     else:
-        # instead of raising here, might be better to fetch api and insert in db.
-        raise HTTPException(status_code=404, detail="user not found in database")
+        ic = IntraAPIClient(os.environ['FT_ID'], os.environ['FT_SECRET'])
+        res = ic.get(f"campus/{os.environ['CAMPUS_ID']}/users?filter[login]={login}").json()
+        if res:
+            db.execute('INSERT INTO users (login, link) VALUES (?, ?)', (login, res[0]['image']['link']))
+            return RedirectResponse(res[0]['image']['link'])
+        else:
+            raise HTTPException(status_code=404, detail="user not found in database")
