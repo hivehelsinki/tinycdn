@@ -25,4 +25,4 @@ async def login(login):
             db.execute('INSERT INTO users (login, link) VALUES (?, ?)', (login, res[0]['image']['link']))
             return RedirectResponse(res[0]['image']['link'])
         else:
-            raise HTTPException(status_code=404, detail="user not found in database")
+            raise HTTPException(status_code=404, detail="user not found")
