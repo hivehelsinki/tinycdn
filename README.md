@@ -8,9 +8,18 @@
 </div>
 
 ## Description
+
 `TinyCDN` is a simple application designed to make it easy to access your 42 students' profile pictures internally.
 
 You may wonder why such an application is necessary. Perhaps you want to create a static website or a simple app without the hassle of setting up a 42API connector or OAuth to retrieve your students' profile picture links. In that case, TinyCDN can help you access any of your students' pictures using the URL tinycdn.domain.nl/LE_LOGIN. This is no longer possible through 42 due to GDPR restrictions on external exposure of student profile pictures.
+
+**⚠️ This branch contains a nginx container.** If you already have your own reverse proxy handling your certs, you can move to the [without_nginx branch](https://github.com/hivehelsinki/tinycdn/tree/without_nginx) or git clone directly without_nginx branch and follow the README.md like so:
+
+```sh
+git clone --depth 1 -b without_nginx git@github.com:hivehelsinki/tinycdn.git
+```
+
+**The following concerns only this branch!**
 
 <br /><br />
 
@@ -19,14 +28,15 @@ You may wonder why such an application is necessary. Perhaps you want to create 
 1. Create a new 42API application [here](https://profile.intra.42.fr/oauth/applications)
 
 2. Create the .env file and fill in the required information
+
 ```bash
 copy .env.sample .env
 ```
 
-|  key | desc |
-| :---         | :---      |
-| CAMPUS_ID    | Your campus ID on the intranet |
-| FT_ID     | Your 42API UID starting with `u-s4t2af` |
+| key       | desc                                       |
+| :-------- | :----------------------------------------- |
+| CAMPUS_ID | Your campus ID on the intranet             |
+| FT_ID     | Your 42API UID starting with `u-s4t2af`    |
 | FT_SECRET | Your 42API Secret starting with `s-s4t2af` |
 
 <br />
@@ -47,6 +57,7 @@ copy .env.sample .env
 4. Edit `./nginx/nginx.conf` to suit your needs.
 
 In this step, you may need:
+
 - to update the `allow` lines if you want to restrict this service to some other specific internal IPs
 - to update the `ssl_certificate` lines if you want to use different filen names for your certificates than `cert.key` and `cert.crt`.
 
@@ -80,24 +91,28 @@ If so, try to access a student profile picture via: https://tinycdn.domain.nl/LO
 ## Dev
 
 If you want to run this application in dev mode:
+
 - debug logs
 - no ip restriction
 - auto reload on edition
-- http only 
+- http only
 
 You can follow the following steps:
 
 1. create a .env.dev file and fill in the required fields.
+
 ```
 cp .env.sample .env.dev
 ```
 
 2. Run your container:
+
 ```bash
 docker-compose -f dc-dev.yml up --build -d
 ```
 
 3. Read the logs to make sure everything went ok
+
 ```bash
 docker-compose -f dc-dev.yml logs -f
 ```
