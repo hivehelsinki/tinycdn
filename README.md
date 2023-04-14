@@ -125,6 +125,4 @@ Feel free to change the port forwarding if you want to use something else than 8
 
 ## Todo
 
-- [x] `/api/update` route - To update the latest /campus/:id/users.
-- [x] `/api/reset` route - To force reset the whole database and fetching all the users again.
-- [ ] propose a branch without nginx, for those already having their own reverse proxy handling certs.
+- [ ] Propose to save the image locally.
