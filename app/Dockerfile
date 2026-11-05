@@ -11,7 +11,7 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 
 COPY . /app
 
-HEALTHCHECK --interval=5s --timeout=5s --retries=3  CMD wget localhost:8000/api/health -q -O - > /dev/null 2>&1
+HEALTHCHECK --interval=5s --timeout=5s --retries=3  CMD wget http://127.0.0.1:8000/api/health -q -O - > /dev/null 2>&1
 
 EXPOSE 8000
 
