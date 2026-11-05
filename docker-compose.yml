@@ -6,9 +6,11 @@ services:
     env_file:
       - .env
     command: "python main.py --env prod"
+    volumes:
+      - data:/app/data
     healthcheck:
       test:
-        ["CMD-SHELL", "wget localhost:8000/api/health -q -O - > /dev/null 2>&1"]
+        ["CMD-SHELL", "wget http://127.0.0.1:8000/api/health -q -O - > /dev/null 2>&1"]
       interval: 5s
       timeout: 5s
       retries: 3
@@ -34,3 +36,6 @@ services:
 
 networks:
   tinycdn:
+
+volumes:
+  data:
