@@ -94,6 +94,21 @@ Feel free to change the port forwarding if you want to use something else than 8
 
 <br /><br />
 
-## Todo
+## Data storage
 
-- [ ] Propose to save the image locally.
+Profile images are downloaded with the app's OAuth token and served locally at
+`/{login}`. Callers do not need a token.
+
+SQLite and images live in `/app/data`, backed by separate Docker volumes for dev
+and production. Data survives container recreation; `docker compose down -v`
+deletes it. Existing databases gain a `filename` column without losing records.
+In dev, the old `app/db.sqlite3` is copied automatically and the original kept.
+
+Startup imports campus users if needed and downloads missing images.
+`/api/update` refreshes changed images, keeping the previous file on failure.
+`/api/reset` fetches the campus list, then clears and rebuilds the database and
+images. Provider 404s are remembered as missing images and return 404 locally.
+Follow progress with `docker compose -f dc-dev.yml logs -f app`.
+
+Before production deployment, back up `/app/db.sqlite3` from the old container
+and transfer it to `/app/data/db.sqlite3` in the new volume before startup.

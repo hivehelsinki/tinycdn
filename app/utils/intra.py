@@ -32,10 +32,10 @@ class IntraAPIClient(object):
     }
     LOG.debug("Attempting to get a token from intranet")
     self.token = "token_dummy"
-    res = self.request(requests.post, self.token_url, params=request_token_payload)
+    res = self.request(requests.post, self.token_url, params=request_token_payload, timeout=30)
     rj = res.json()
     self.token = rj["access_token"]
-    LOG.info(f"Got new acces token from intranet {self.token}")
+    LOG.info("Got new access token from intranet")
 
   def _make_authed_header(self, header={}):
     ret = {
@@ -61,7 +61,7 @@ class IntraAPIClient(object):
           desc, _ = desc.split('"')
           if desc == "The access token expired" or desc == "The access token is invalid":
             if self.token != "token_dummy":
-              LOG.warning(f"Server said our token {self.token} {desc.split(' ')[-1]}")
+              LOG.warning(f"Server said our token {desc.split(' ')[-1]}")
             if tries < 5:
               LOG.debug("Renewing token")
               tries += 1
@@ -76,6 +76,8 @@ class IntraAPIClient(object):
         continue
 
       if rc >= 400:
+        if rc == 404:
+          raise requests.HTTPError('Provider resource not found', response=res)
         req_data = "{}{}".format(url, "\n" + str(kwargs['params']) if 'params' in kwargs.keys() else "")
         if rc < 500:
           raise ValueError(f"\n{res.headers}\n\nClientError. Error {str(rc)}\n{str(res.content)}\n{req_data}")
