@@ -8,7 +8,7 @@ from routers import api, root
 from utils.db import db, populate_users
 
 async def startup_event():
-  thread = threading.Thread(target=populate_users)
+  thread = threading.Thread(target=populate_users, daemon=True)
   thread.start()
 
 def create_app():

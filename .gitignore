@@ -3,6 +3,7 @@ venv/
 .env
 .env.dev
 *.sqlite3
+app/data/
 
 nginx/ssl/*.crt
 nginx/ssl/*.key
